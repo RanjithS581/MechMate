@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nearby Mechanic Shops</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <!-- Replace 'YOUR_API_KEY' with your actual API key -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAlgmr0hjDEwFiNsxQR1DO-eVB1OIzbiM&libraries=places" async defer></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Instant Mechanic Advice</h1>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="/" class="text-white hover:text-gray-300">Home</a></li>
+          <li><a href="/map" class="text-white hover:text-gray-300">Map</a></li>
+          <li><a href="/login" class="text-white hover:text-gray-300">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container mx-auto my-8 p-4">
+    <h2 class="text-3xl font-semibold text-center mb-6">Find Nearby Mechanic Shops</h2>
+
+    <div class="mb-6">
+      <div id="map" style="height: 500px; width: 100%"></div>
+    </div>
+
+    <!-- Shops List -->
+    <div class="mt-8">
+      <h3 class="text-xl font-semibold mb-4">Nearby Mechanic Shops</h3>
+      <ul id="shops-list" class="list-none p-0 space-y-4"></ul>
+    </div>
+
+    <!-- Booking Form -->
+    <section class="mt-12 bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+      <h2 class="text-2xl font-semibold text-center mb-4">Book Instant Repair Service</h2>
+      <form id="booking-form" class="space-y-4" method="POST" action="/api/book-appointment">
+        <input type="text" id="name" name="userName" placeholder="Your Name" required class="w-full px-4 py-2 border rounded-md" />
+        <input type="tel" id="phone" name="userPhoneNumber" placeholder="Your Phone Number" required class="w-full px-4 py-2 border rounded-md" />
+        <input type="text" id="vehicle" name="vehicle" placeholder="Vehicle Type or Issue" required class="w-full px-4 py-2 border rounded-md" />
+        <textarea id="details" name="details" rows="4" placeholder="Additional Details (optional)" class="w-full px-4 py-2 border rounded-md"></textarea>
+        <select id="urgency" name="urgency" required class="w-full px-4 py-2 border rounded-md">
+          <option value="">Select Urgency</option>
+          <option value="immediate">Immediate</option>
+          <option value="within-hour">Within 1 Hour</option>
+          <option value="schedule">Schedule Later</option>
+        </select>
+        <input type="tel" id="mechanicPhone" name="mechanicPhone" placeholder="Mechanic Phone Number with country code (e.g., +91XXXXXXXXXX)" required class="w-full px-4 py-2 border rounded-md" />
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md">
+          Submit Booking
+        </button>
+      </form>
+
+      <!-- Buttons for Rating and Payment -->
+      <div class="flex flex-col space-y-4 mt-6">
+        <button onclick="goToRatingPage()" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md">
+          Go to Rating Page
+        </button>
+        <button onclick="goToPaymentPage()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-md">
+          Go to Payment Page
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center p-4 mt-8">
+    <p>&copy; 2025 Instant Mechanic Advice | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    let map;
+    let markers = [];
+    let service;
+
+    function initMap() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          // Initialize map
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: userLocation,
+            zoom: 15
+          });
+
+          new google.maps.Marker({
+            position: userLocation,
+            map: map,
+            title: "Your Location"
+          });
+
+          service = new google.maps.places.PlacesService(map);
+          service.nearbySearch({
+            location: userLocation,
+            radius: 5000,
+            type: ['car_repair']
+          }, displayNearbyShops);
+        }, function() {
+          alert("Unable to retrieve your location.");
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function displayNearbyShops(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        const shopsList = document.getElementById('shops-list');
+        shopsList.innerHTML = '';
+
+        results.forEach((shop) => {
+          const marker = new google.maps.Marker({
+            position: shop.geometry.location,
+            map: map,
+            title: shop.name
+          });
+
+          markers.push(marker);
+
+          const li = document.createElement('li');
+          li.classList.add('border-b', 'py-2');
+          li.innerHTML = `<strong>${shop.name}</strong><br>Address: ${shop.vicinity}<br>
+                        <button onclick="bookAppointment('${shop.name}', '${shop.formatted_phone_number || ''}')"
+                        class="mt-2 bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700">
+                        Book Appointment
+                        </button>`;
+          shopsList.appendChild(li);
+        });
+      }
+    }
+
+    function bookAppointment(shopName, mechanicPhone) {
+      alert(`You selected ${shopName}. Please fill out the form below to continue booking.`);
+      document.getElementById('mechanicPhone').value = mechanicPhone || '';
+    }
+
+    // Handle WhatsApp form submission
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const vehicle = document.getElementById('vehicle').value;
+      const details = document.getElementById('details').value;
+      const urgency = document.getElementById('urgency').value;
+      const mechanicPhone = document.getElementById('mechanicPhone').value;
+
+      const message = `*Booking Request:*\n\n` +
+        `Name: ${name}\n` +
+        `Phone: ${phone}\n` +
+        `Vehicle: ${vehicle}\n` +
+        `Urgency: ${urgency}\n` +
+        `Details: ${details ? details : "None"}\n\n` +
+        `Please respond ASAP.`;
+
+      const whatsappURL = `https://wa.me/${mechanicPhone}?text=${encodeURIComponent(message)}`;
+
+      // Open WhatsApp chat
+      window.open(whatsappURL, '_blank');
+
+      // Wait and redirect to rating page
+      setTimeout(() => {
+        window.location.href = `/rating?mechanicPhone=${encodeURIComponent(mechanicPhone)}`;
+      }, 2000);
+    });
+
+    // Button functions
+    function goToRatingPage() {
+      const mechanicPhone = document.getElementById('mechanicPhone').value;
+      if (!mechanicPhone) {
+        alert('Please enter mechanic phone number.');
+        return;
+      }
+      window.location.href = `/rating?mechanicPhone=${encodeURIComponent(mechanicPhone)}`;
+    }
+
+    function goToPaymentPage() {
+      const mechanicPhone = document.getElementById('mechanicPhone').value;
+      if (!mechanicPhone) {
+        alert('Please enter mechanic phone number.');
+        return;
+      }
+      window.location.href = `/payment?mechanicPhone=${encodeURIComponent(mechanicPhone)}`;
+    }
+
+    window.onload = initMap;
+  </script>
+
+</body>
+</html>

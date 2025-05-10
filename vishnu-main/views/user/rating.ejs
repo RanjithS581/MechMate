@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate Mechanic</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Keyframe for background animation */
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Background gradient animation */
+    body {
+      background: linear-gradient(45deg, #f8c8c8, #ffd1dc);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease infinite;
+    }
+
+    /* Fixed Header Styling */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .header-content {
+      padding: 1rem;
+      background-color: #333;
+      color: white;
+    }
+
+    .header-content h1 {
+      font-size: 2rem;
+    }
+
+    /* Fade-in animation for form */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 1s ease-out;
+    }
+
+    /* Adding padding-top to content so the fixed header doesn't overlap */
+    .content {
+      padding-top: 4rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Styling for each review card */
+    .review-card {
+      background-color: #333;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 8px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .review-card p {
+      margin-bottom: 4px;
+    }
+
+    .review-card .rating {
+      font-weight: bold;
+      color: #f1c40f;
+    }
+
+    /* Flexbox styling for the review grid */
+    .review-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: space-evenly;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header>
+    <div class="header-content text-center">
+      <h1 class="text-3xl font-bold">Rate Your Mechanic</h1>
+      <p class="mt-2">Your feedback helps us grow 🚀</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="content flex-grow flex items-center justify-center p-4">
+    <section class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md animate-fade-in-up">
+
+      <!-- Image and Title -->
+      <div class="flex flex-col items-center mb-6">
+        <img src="https://img.icons8.com/ios-filled/100/fa314a/mechanic.png" alt="Mechanic Icon" class="w-24 h-24 mb-4 animate-bounce" />
+        <h2 class="text-3xl font-bold text-red-500">Rate Mechanic</h2>
+        <p class="text-gray-400 text-sm mt-2">Your feedback helps us grow 🚀</p>
+      </div>
+
+      <!-- Rating Form -->
+      <form id="rating-form" method="POST" action="/api/rate-mechanic" class="space-y-5" onsubmit="submitReview(event)">
+
+        <input type="text" id="name" name="name" placeholder="Enter Your Name" required
+            class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300" />
+
+
+        <!-- Mechanic Phone Number -->
+        <input type="tel" id="mechanicPhone" name="mechanicPhone" placeholder="Mechanic Phone Number" required
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300" />
+
+        <!-- Overall Rating -->
+        <select id="rating" name="rating" required
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300">
+          <option value="">Overall Rating</option>
+          <option value="1">1 - Very Poor</option>
+          <option value="2">2 - Poor</option>
+          <option value="3">3 - Average</option>
+          <option value="4">4 - Good</option>
+          <option value="5">5 - Excellent</option>
+        </select>
+
+        <!-- Punctuality -->
+        <select id="punctuality" name="punctuality" required
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300">
+          <option value="">Punctuality</option>
+          <option value="1">1 - Very Late</option>
+          <option value="2">2 - Late</option>
+          <option value="3">3 - On Time</option>
+          <option value="4">4 - Early</option>
+          <option value="5">5 - Very Early</option>
+        </select>
+
+        <!-- Professionalism -->
+        <select id="professionalism" name="professionalism" required
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300">
+          <option value="">Professionalism</option>
+          <option value="1">1 - Very Unprofessional</option>
+          <option value="2">2 - Unprofessional</option>
+          <option value="3">3 - Average</option>
+          <option value="4">4 - Professional</option>
+          <option value="5">5 - Very Professional</option>
+        </select>
+
+        <!-- Work Quality -->
+        <select id="workQuality" name="workQuality" required
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300">
+          <option value="">Work Quality</option>
+          <option value="1">1 - Very Poor</option>
+          <option value="2">2 - Poor</option>
+          <option value="3">3 - Average</option>
+          <option value="4">4 - Good</option>
+          <option value="5">5 - Excellent</option>
+        </select>
+
+        <!-- Communication -->
+        <select id="communication" name="communication" required
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300">
+          <option value="">Communication</option>
+          <option value="1">1 - Very Poor</option>
+          <option value="2">2 - Poor</option>
+          <option value="3">3 - Average</option>
+          <option value="4">4 - Good</option>
+          <option value="5">5 - Excellent</option>
+        </select>
+
+        <!-- Review -->
+        <textarea id="review" name="review" rows="4" placeholder="Leave an optional review..."
+          class="w-full px-4 py-2 border-2 border-red-500 bg-black text-white rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none transition duration-300"></textarea>
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-md transform hover:scale-105 transition duration-300">
+          Submit Rating
+        </button>
+
+      </form>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="mt-8">
+        <h3 class="text-xl font-bold text-black mb-4 text-center">Reviews:</h3>
+      
+      <!-- Static Reviews -->
+      <div class="review-grid">
+        <div class="review-card">
+          <p class="font-semibold">8987475624</p>
+          <p class="font-semibold">John Doe</p>
+          <p class="text-gray-400">Rating: <span class="rating">5</span> | Punctuality: 4 | Professionalism: 5 | Work Quality: 5 | Communication: 5</p>
+          <p class="text-gray-400">"Great mechanic! Very professional and punctual."</p>
+        </div>
+        <div class="review-card">
+          <p class="font-semibold">8923475624</p>
+          <p class="font-semibold">Jane Smith</p>
+          <p class="text-gray-400">Rating: <span class="rating">4</span> | Punctuality: 3 | Professionalism: 4 | Work Quality: 4 | Communication: 5</p>
+          <p class="text-gray-400">"The service was excellent! Highly recommend!"</p>
+        </div>
+        <div class="review-card">
+          <p class="font-semibold">7687475624</p>
+          <p class="font-semibold">Michael Johnson</p>
+          <p class="text-gray-400">Rating: <span class="rating">3</span> | Punctuality: 3 | Professionalism: 3 | Work Quality: 3 | Communication: 3</p>
+          <p class="text-gray-400">"Average service, could be improved in some areas."</p>
+        </div>
+        <div class="review-card">
+          <p class="font-semibold">Alice Brown</p>
+          <p class="text-gray-400">Rating: <span class="rating">5</span> | Punctuality: 5 | Professionalism: 5 | Work Quality: 5 | Communication: 5</p>
+          <p class="text-gray-400">"Fantastic experience! Very reliable and skilled mechanic."</p>
+        </div>
+      </div>
+
+      <!-- Dynamic Reviews (from localStorage) will be appended here -->
+      <div id="reviews" class="review-grid mt-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+            function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+        }
+
+        // Function to handle form submission and save reviews to localStorage
+        function submitReview(event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        const name = document.getElementById('name').value;  // Get the name from the input field
+        const mechanicPhone = document.getElementById('mechanicPhone').value;
+        const rating = document.getElementById('rating').value;
+        const punctuality = document.getElementById('punctuality').value;
+        const professionalism = document.getElementById('professionalism').value;
+        const workQuality = document.getElementById('workQuality').value;
+        const communication = document.getElementById('communication').value;
+        const reviewText = document.getElementById('review').value;
+
+        // Create a review object
+        const review = {
+            name: name,
+            mechanicPhone: mechanicPhone,
+            rating: rating,
+            punctuality: punctuality,
+            professionalism: professionalism,
+            workQuality: workQuality,
+            communication: communication,
+            reviewText: reviewText
+        };
+
+        // Get existing reviews from localStorage, or initialize to an empty array
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+        // Add the new review to the reviews array
+        reviews.push(review);
+
+        // Save the updated reviews array to localStorage
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+
+        // Clear the form fields after submission (optional)
+        document.getElementById('rating-form').reset();
+
+        // Refresh the reviews display
+        displayReviews();
+    }
+
+        // Display reviews dynamically from localStorage
+        function displayReviews() {
+        const reviewsContainer = document.getElementById('reviews');
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+        // Clear existing reviews
+        reviewsContainer.innerHTML = '';
+
+        // Loop through the reviews and append to the reviews section
+        reviews.forEach(function(review) {
+            const reviewElement = `
+            <div class="review-card">
+                <p class="font-semibold">${review.name}</p>  <!-- Display the name -->
+                <p class="text-gray-400">${review.mechanicPhone} | Rating: <span class="rating">${review.rating}</span> | Punctuality: ${review.punctuality} | Professionalism: ${review.professionalism} | Work Quality: ${review.workQuality} 
+                | Communication: ${review.communication}</p>
+                <p class="text-gray-400">${review.reviewText}</p>
+            </div>
+            `;
+            reviewsContainer.innerHTML += reviewElement;
+        });
+        }
+
+        // Load existing reviews when the page loads
+        window.onload = function() {
+        displayReviews();
+
+        // Get the mechanicPhone from URL parameters and set it in the form
+        const mechanicPhone = getQueryParam('mechanicPhone');
+        if (mechanicPhone) {
+            document.getElementById('mechanicPhone').value = mechanicPhone;
+        }
+        };
+
+  </script>
+
+</body>
+</html>

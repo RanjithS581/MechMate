@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Site</title>
+  <link rel="icon" type="image/png" href="../../assets/images/logo-next.jpg" sizes="16x16">
+  <!-- remix icon font css  -->
+  <link rel="stylesheet" href="../../assets/css/remixicon.css">
+  <!-- BootStrap css -->
+  <link rel="stylesheet" href="../../assets/css/lib/bootstrap.min.css">
+  <!-- Apex Chart css -->
+  <link rel="stylesheet" href="../../assets/css/lib/apexcharts.css">
+  <!-- Data Table css -->
+  <link rel="stylesheet" href="../../assets/css/lib/dataTables.min.css">
+  <!-- Text Editor css -->
+  <link rel="stylesheet" href="../../assets/css/lib/editor-katex.min.css">
+  <link rel="stylesheet" href="../../assets/css/lib/editor.atom-one-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/lib/editor.quill.snow.css">
+  <!-- Date picker css -->
+  <link rel="stylesheet" href="../../assets/css/lib/flatpickr.min.css">
+  <!-- Calendar css -->
+  <link rel="stylesheet" href="../../assets/css/lib/full-calendar.css">
+  <!-- Vector Map css -->
+  <link rel="stylesheet" href="../../assets/css/lib/jquery-jvectormap-2.0.5.css">
+  <!-- Popup css -->
+  <link rel="stylesheet" href="../../assets/css/lib/magnific-popup.css">
+  <!-- Slick Slider css -->
+  <link rel="stylesheet" href="../../assets/css/lib/slick.css">
+  <!-- main css -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+  <body class="y-bg-color">
+    <aside class="sidebar y-bg-color">
+        <button type="button" class="sidebar-close-btn">
+          <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
+        </button>
+               <div>
+          <a href="/" class="sidebar-logo min-w-100%">
+            <img src="../../assets/images/logo-name.jpg" alt="site logo" class="light-logo ">
+            <img src="../../assets/images/logo-name.jpg" alt="site logo" class="dark-logo ">
+            <!-- <img src="../../assets/images/logo-icon.png" alt="site logo" class="logo-icon "> -->
+          </a>
+        </div>
+        <div class="sidebar-menu-area">
+          <ul class="sidebar-menu" id="sidebar-menu">
+            <li>
+              <a href="/api/admin">
+                <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="/api/admin/addService">
+                <iconify-icon icon="ion:search-outline" class="menu-icon"></iconify-icon>
+                <span>Services</span>
+              </a>
+            </li>
+            <li>
+              <a href="/api/admin/bookings">
+                <iconify-icon icon="hugeicons:invoice-03" class="menu-icon"></iconify-icon>
+                <span>Bookings</span> 
+              </a>
+            </li>
+            <!-- <li>
+              <a href="/user">
+                <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+                <span>Users</span>
+              </a>
+            </li>
+              <li>
+                <a href="/logout">
+                  <iconify-icon icon="solar:logout-2-outline" class="menu-icon"></iconify-icon>
+                  <span>logout</span>
+                </a>
+              </li> -->
+          </ul>
+        </div>
+      </aside>
+
+
+
+<main class="dashboard-main y-bg-color">
+    <div class="navbar-header y-bg-color">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+      <div class="d-flex flex-wrap align-items-center gap-4">
+        <button type="button" class="sidebar-toggle">
+          <iconify-icon icon="heroicons:bars-3-solid" class="icon text-2xl non-active"></iconify-icon>
+          <iconify-icon icon="iconoir:arrow-right" class="icon text-2xl active"></iconify-icon>
+        </button>
+        <button type="button" class="sidebar-mobile-toggle">
+          <iconify-icon icon="heroicons:bars-3-solid" class="icon"></iconify-icon>
+        </button>
+        <form class="navbar-search " action="/search-db" method="post">
+          <input type="text" name="Phone" placeholder="Search" class="y-bg-color">
+          <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
+        </form> 
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="d-flex flex-wrap align-items-center gap-3">
+        <button type="button" data-theme-toggle class="w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center"></button>
+      
+        <div class="dropdown">
+          <button class="d-flex justify-content-center align-items-center rounded-circle" type="button" data-bs-toggle="dropdown">
+            <img src="../../assets/images/user.png" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle">
+          </button>
+          <div class="dropdown-menu to-top dropdown-menu-sm">
+            <div class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
+              <div>
+               
+                <h6 class="text-lg text-primary-light fw-semibold mb-2">Welcome Temple,</h6>
+                <span class="text-secondary-light fw-medium text-sm">Admin</span>
+              </div>
+              <button type="button" class="hover-text-danger">
+                <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon> 
+              </button>
+            </div>
+            <ul class="to-top-list">
+              <li>
+                <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3" href="/logout"> 
+                <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon>
+                Log Out</a>
+              </li>
+            </ul>
+          </div>
+        </div><!-- Profile dropdown end -->
+      
+      
+      </div>
+    </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="dashboard-main-body">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
+  <h6 class="fw-semibold mb-0">Dashboard</h6>
+  <ul class="d-flex align-items-center gap-2">
+    <li class="fw-medium">
+      <a href="/" class="d-flex align-items-center gap-1 hover-text-primary">
+        <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
+        Dashboard
+      </a>
+    </li>
+    <li>-</li>
+    <li class="fw-medium">Investment</li>
+  </ul>
+</div>
+    
+    <div class="row gy-4">  
+        <div class="col-xxl-3 col-sm-6">
+            <div class="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-3">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                    <div class="d-flex align-items-center">
+                        <div class="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
+                            <span class="mb-0 w-40-px h-40-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center radius-8 h6 mb-0">
+                                <iconify-icon icon="flowbite:users-group-solid" class="icon"></iconify-icon>
+                            </span>
+                        </div>
+                        <div>
+                            <span class="mb-2 fw-medium text-secondary-light text-md">Total Customers</span>
+                            <h6 class="fw-semibold my-1"><%= totalBooking %></h6>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Widget Start -->
+        <div class="col-xxl-3 col-sm-6">
+            <div class="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-4">
+              <div class="card-body p-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                    <div class="d-flex align-items-center">
+
+                        <div class="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
+                            <span class="mb-0 w-40-px h-40-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center radius-8 h6 mb-0">
+                                <iconify-icon icon="streamline:bag-dollar-solid" class="icon"></iconify-icon>
+                            </span>
+                        </div>
+                      
+                        <div>
+                            <span class="mb-2 fw-medium text-secondary-light text-md">Total Completed</span>
+                            <h6 class="fw-semibold my-1"><%= totalCompleted %></h6>
+                            <!-- <p class="text-sm mb-0">Increase by
+                                <span class="bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm">+200</span> this week
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-sm-6">
+          <div class="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-3">
+            <div class="card-body p-0">
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
+                  <div class="d-flex align-items-center">
+                      <div class="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
+                          <span class="mb-0 w-40-px h-40-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center bg-danger-600 align-items-center radius-8 h6 mb-0">
+                              <iconify-icon icon="streamline:bag-dollar-solid" class="icon"></iconify-icon>
+                          </span>
+                      </div>
+                      <div>
+                          <span class="mb-2 fw-medium text-secondary-light text-md">Total Pending</span>
+                          <h6 class="fw-semibold my-1"><%= totalPending %></h6>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div>
+        <!-- Dashboard Widget End -->
+
+    </div>
+    
+  </div>
+
+  <footer class="d-footer y-bg-color">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-auto">
+      <p class="mb-0">© 2024 NextOneSolutions. All Rights Reserved.</p>
+    </div>
+    <div class="col-auto">
+      <a href="https://www.nextonesolutions.in/" target="_blank">
+        <p class="mb-0">Developed by <span class="text-primary-600">NextOneSolutions</span></p>
+      </a>
+     
+    </div>
+  </div>
+</footer>
+</main>
+  
+  <!-- jQuery library js -->
+  <script src="../../assets/js/lib/jquery-3.7.1.min.js"></script>
+  <!-- Bootstrap js -->
+  <script src="../../assets/js/lib/bootstrap.bundle.min.js"></script>
+  <!-- Apex Chart js -->
+  <script src="../../assets/js/lib/apexcharts.min.js"></script>
+  <!-- Data Table js -->
+  <script src="../../assets/js/lib/dataTables.min.js"></script>
+  <!-- Iconify Font js -->
+  <script src="../../assets/js/lib/iconify-icon.min.js"></script>
+  <!-- jQuery UI js -->
+  <script src="../../assets/js/lib/jquery-ui.min.js"></script>
+  <!-- Vector Map js -->
+  <script src="../../assets/js/lib/jquery-jvectormap-2.0.5.min.js"></script>
+  <script src="../../assets/js/lib/jquery-jvectormap-world-mill-en.js"></script>
+  <!-- Popup js -->
+  <script src="../../assets/js/lib/magnifc-popup.min.js"></script>
+  <!-- Slick Slider js -->
+  <script src="../../assets/js/lib/slick.min.js"></script>
+  <!-- main js -->
+  <script src="../../assets/js/app.js"></script>
+
+<script src="../../assets/js/homeFiveChart.js"></script>
+
+</body>
+</html>

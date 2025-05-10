@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+	
+<div class="container right-panel-active">
+	<!-- Sign Up -->
+	<div class="container__form container--signup">
+		<form action="/auth/userRegister" class="form" id="form1" method="post">
+			<h2 class="form__title">Sign Up</h2>
+			<input type="text" placeholder="User Name" class="input" name="userName" />
+			<input type="email" placeholder="Email" class="input" name="email" />
+			<input type="password" placeholder="Password" class="input" name="password" />
+			<% if (typeof success !== 'undefined') { %>
+				<%= success %>
+				<% } %>
+			<button type="submit" class="btn">Sign Up</button>
+		</form>
+	</div>
+
+	<!-- Sign In -->
+	<div class="container__form container--signin">
+		<form action="/auth/userLogin" class="form" id="form2" method="post">
+			<h2 class="form__title">Sign In</h2>
+			<% if (typeof error !== 'undefined') { %>
+				<h3><%= error %></h3>
+				<% } %>
+			<input type="email" placeholder="Email" class="input" name="email" />
+			<input type="password" placeholder="Password" class="input" name="password" />
+			<a href="#" class="link" id="admin">Is Admin?</a>
+			<button class="btn" type="submit">Sign In</button>
+		</form>
+	</div>
+
+	<div class="container__form container--signin admin-div" id="admin-div">
+		<form action="/api/admin/loginAdmin" class="form" id="form2" method="post">
+			<h2 class="form__title">Sign In</h2>
+			<input type="email" placeholder="Admin Email" class="input" name="email" />
+			<input type="password" placeholder="Admin Password" class="input" name="password" />
+			<a href="#" class="link" id="user">Is User?</a>
+			<button class="btn">Admin Sign In</button>
+		</form>
+	</div>
+
+	<!-- Overlay -->
+	<div class="container__overlay">
+		<div class="overlay">
+			<div class="overlay__panel overlay--left">
+				<button class="btn" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay__panel overlay--right">
+				<button class="btn" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+const signInBtn = document.getElementById("signIn");
+const signUpBtn = document.getElementById("signUp");
+const fistForm = document.getElementById("form1");
+const secondForm = document.getElementById("form2");
+const container = document.querySelector(".container");
+const adminLogin = document.getElementById('admin')
+const adminDiv = document.getElementById('admin-div')
+const userLogin = document.getElementById('user')
+
+adminLogin.addEventListener("click", () => {
+	adminDiv.classList.remove('admin-div')
+})
+
+userLogin.addEventListener("click", () => {
+	adminDiv.classList.add('admin-div')
+})
+
+signInBtn.addEventListener("click", () => {
+	container.classList.remove("right-panel-active");
+});
+
+signUpBtn.addEventListener("click", () => {
+	container.classList.add("right-panel-active");
+});
+
+
+
+</script>
+</body>
+
+
+
+</html>
